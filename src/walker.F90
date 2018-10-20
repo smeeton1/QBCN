@@ -5,9 +5,9 @@ module walker
  type,public :: node
   integer  :: n,e
   logical  :: o_f
-  complex*16, dimension(:,:), allocatable:: nphi
-  complex*16, dimension(:), allocatable  :: nqphi
-  logical,dimension(:),allocatable       :: e_of
+  complex*16, dimension(e,2) :: nphi
+  complex*16, dimension(2)   :: nqphi
+  logical,dimension(e)       :: e_of
   
   contains
     procedure,
