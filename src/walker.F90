@@ -9,13 +9,43 @@ module walker
   complex*16, dimension(2)   :: nqphi
   logical,dimension(e)       :: e_of
   
-  contains
-    procedure,
-    procedure,
+!   contains
+!     procedure,
+!     procedure,
  
  
  end type node
-
+ 
+ 
+!functions for walker with out interaction 
+ subroutine swap(phi)
+ !swaps the probablities on each edge
+ !for each node swaps all edges with m grater then n
+ 
+ 
+ end subroutine
+ 
+ 
+ subroutine mix(phi)
+ !apply coin to each node
+ 
+ end subroutine
+!end of walking functions
+ 
+ 
+!function to gereate coins of size mxm
+ subroutine Hcoin(C)
+ 
+ end subroutine
+ 
+ subroutine Gcoin(C)
+ 
+ end subroutine
+ 
+ subroutine Ccoin(C)
+ 
+ end subroutine
+!end of coin functions
 
 
 
