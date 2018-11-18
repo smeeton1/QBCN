@@ -21,6 +21,22 @@ module walker
  subroutine swap(phi)
  !swaps the probablities on each edge
  !for each node swaps all edges with m grater then n
+ node,dimension(:),intent(inout) :: phi
+ integer                         :: n,i,j
+ complex*16                      :: hold
+ 
+ n = size(phi)
+ 
+ do i=1,n
+  do j=1,phi(i).e
+   if(i.lt.phi(i).nphi(1,j))then
+   
+   
+   endif
+  
+  enddo
+  
+ end do
  
  
  end subroutine
