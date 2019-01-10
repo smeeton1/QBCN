@@ -6,7 +6,7 @@ module walker
   integer  :: n,e
   logical  :: o_f
   complex*16, dimension(e,2) :: nphi
-  complex*16, dimension(2)   :: nqphi
+  complex*16, dimension(2,2) :: nqphi
   logical,dimension(e)       :: e_of
   
 !   contains
@@ -42,8 +42,31 @@ module walker
  end subroutine
  
  
- subroutine mix(phi)
+ subroutine mix(phi,Ct)
  !apply coin to each node
+ node,dimension(:),intent(inout)  :: phi
+ integer,intent(in)               :: Ct
+ integer                          :: n,i,j
+ complex*16,dimension,allocatable :: C
+ 
+ n = size(phi)
+ 
+ do i=1,n
+ 
+  allocate(C(phi(i).e,phi(i).e))
+ 
+  if(Ct.eq.1)then
+   call Hcion(C)
+  elseif(Ct.eq.2)then
+   call Gcoin(C)
+  else
+   call Ccoin(C)
+  endif
+ 
+  matmul(C,phi(i).nphi(2,:))
+ 
+  deallocate(C)
+ enddo
  
  end subroutine
 !end of walking functions
