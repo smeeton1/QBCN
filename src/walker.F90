@@ -22,7 +22,7 @@ module walker
  !swaps the probablities on each edge
  !for each node swaps all edges with m grater then n
  node,dimension(:),intent(inout) :: phi
- integer                         :: n,i,j
+ integer                         :: n,i,j,k
  complex*16                      :: hold
  
  n = size(phi)
@@ -30,7 +30,14 @@ module walker
  do i=1,n
   do j=1,phi(i).e
    if(i.lt.phi(i).nphi(1,j))then
-   
+    do k=1,phi(phi(i).nphi(1,j)).e
+      if(phi(phi(i).nphi(1,j)).nphi(1,k).eq.phi(i).n)then
+        hold=phi(i).nphi(2,j)
+        phi(phi(i).nphi(2,j))=phi(phi(i).nphi(1,j)).nphi(2,k)
+        phi(phi(i).nphi(1,j)).nphi(2,k)=hold
+      endif
+    
+    enddo
    
    endif
   
