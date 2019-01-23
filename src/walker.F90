@@ -81,14 +81,28 @@ module walker
  
 !function to gereate coins of size mxm
  subroutine Hcoin(C)
+ complex*16,intent(inout)  :: C
+ integer                   :: i,n
+ n = size(C,1)
  
  end subroutine
  
  subroutine Gcoin(C)
+ complex*16,intent(inout)  :: C
+ integer                   :: i,n
+ n = size(C,1)
+ 
+ c(:,:)=cmplx(2.0/real(n))
+ do i=1,n
+  c(i,i)=c(i,i)-1.0
+ enddo
  
  end subroutine
  
  subroutine Ccoin(C)
+ complex*16,intent(inout)  :: C
+ integer                   :: i,n
+ n = size(C,1)
  
  end subroutine
 !end of coin functions
