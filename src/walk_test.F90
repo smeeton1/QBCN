@@ -4,31 +4,42 @@ use measure
 implicit none
 
 node,dimension(:),allocatable  :: walk
-integer                        :: n,i,j
+integer                        :: n,i,j,wend
 
+wend=4
 n=10
 allocate(walk(n))
 
 do i=1,n
- walk.n=i
- walk.e=2
- walk.o_f=.false.
+ walk(i).n=i
+ walk(i).e=2
+ walk(i).o_f=.false.
  if(i.neq.1)then
- walk.nphi(1,1)=i-1
+ walk(i).nphi(1,1)=i-1
  else then
-  walk.nphi(1,1)=n
+  walk(i).nphi(1,1)=n
  endif
  if(i.neq.n)then
-  walk.nphi(1,1)=i+1
+  walk(i).nphi(1,1)=i+1
  else then
-  walk.nphi(1,1)=1
+  walk(i).nphi(1,1)=1
  endif
  do j=1,walk.e
-   walk.nphi(j,2)=cmplx(0.0,0.0)
+   walk(i).nphi(j,2)=cmplx(0.0,0.0)
  enddo
- walk.nqphi(:,:)=cmplx(0.0,0.0)
- walk.nqphi(2,2)=cmplx(1.0,0.0)
- walk.e_of(:)=.false.
+ walk(i).nqphi(:,:)=cmplx(0.0,0.0)
+ walk(i).nqphi(2,2)=cmplx(1.0,0.0)
+ walk(i).e_of(:)=.false.
+enddo
+
+do i=1,wend
+  call mix(walk,2)
+  call swap(walk)
+  do j=1,n
+    call qbit_rho_inter(walk(j).nqphi,walk(j).nphi,1.0,0.2,1.0)
+    call jmes_den(walk(j).nqphi,walk(i).o_f,0.2)
+  enddo
+
 enddo
 
 end program
