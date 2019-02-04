@@ -1,29 +1,28 @@
 CC = gfortran
-CFLAGS = 
+CFLAGS = -g
 LIB = 
-path?= obj/
-BINDIR?= mod
+path= obj
+BINDIR= mod
 
-OBJECTS = $(path)/graph.o          \
-	  $(path)/jump.o          \
-	  $(path)/density.o  \
-	  $(path)/LineTest.o \
-	  $(path)/Dran.o
+OBJECTS = $(path)/walker.o \
+	  $(path)/measure.o \
+	  $(path)/rules.o  \
+	  $(path)/walk_test.o  
 	  
-$(path)/%.o : %.F90
-	$(CC) $(CFLAGS) -c $<
+$(path)/%.o : src/%.F90
+	$(CC) $(CFLAGS) -c $< -o $@ -J$(BINDIR)
 
-Dran: $(OBJECTS)
+Cwlk: $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIB)
 	
 	
-graph.o:
-jump.o:
-density.o:
-LineTest.o: density.o
-Dran.o:LineTest.o density.o jump.o graph.o
+walker.o:
+measure.o:
+rules.o: walker.o
+walk_test.o: walker.o measure.o rules.o
 
-rm mod/*.mod
+
+#rm mod/*.mod
 
 clean: 
-	rm Dran $(path)/*.o 
+	rm Cwlk $(path)/*.o 

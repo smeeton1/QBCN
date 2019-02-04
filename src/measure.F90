@@ -1,7 +1,7 @@
-module jump
+module measure
   implicit none
   
-contains 
+ contains 
 
 subroutine jmes(Q,Res,dt)
   complex*16,dimension(:),intent(inout) :: Q
@@ -46,11 +46,12 @@ end subroutine
 
 
 subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
-  complex*16,dimension(:),intent(inout) :: qbit,phi
-  real,intent(in)                       :: dt,s,g0
-  complex*16                            :: hold,hold2,hold3,hold4,norm
-  integer                               :: l,i
-  real*8                                :: g
+  complex*16,dimension(:,:),intent(inout) :: qbit
+  complex*16,dimension(:),intent(in)      :: phi
+  real,intent(in)                         :: dt,s,g0
+  complex*16                              :: hold,hold2,hold3,hold4,norm
+  integer                                 :: l,i
+  real*8                                  :: g
 
  l=size(phi)
  g=0.0
@@ -61,10 +62,10 @@ subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
  if(abs(g).gt.0.00001)then
  
   do i=1,10
-   hold =qbit(1,1)+(dt/10.0)*s*g(2*qbit(2,2))
-   hold2=qbit(1,2)-(dt/10.0)*s*g(qbit(1,2))
-   hold3=qbit(2,1)-(dt/10.0)*s*g(qbit(2,1))
-   hold4=qbit(2,2)-(dt/10.0)*s*g(2*qbit(2,2))
+   hold =qbit(1,1)+(dt/10.0)*s*g*(2.0*qbit(2,2))
+   hold2=qbit(1,2)-(dt/10.0)*s*g*(qbit(1,2))
+   hold3=qbit(2,1)-(dt/10.0)*s*g*(qbit(2,1))
+   hold4=qbit(2,2)-(dt/10.0)*s*g*(2.0*qbit(2,2))
  
    norm=hold+hold4
  
@@ -77,10 +78,10 @@ subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
  else
  
   do i=1,10
-   hold =qbit(1,1)-(dt/10.0)*s*g0(2*qbit(1,1))
-   hold2=qbit(1,2)-(dt/10.0)*s*g0(qbit(1,2))
-   hold3=qbit(2,1)-(dt/10.0)*s*g0(qbit(2,1))
-   hold4=qbit(2,2)+(dt/10.0)*s*g0(2*qbit(1,1))
+   hold =qbit(1,1)-(dt/10.0)*s*g0*(2.0*qbit(1,1))
+   hold2=qbit(1,2)-(dt/10.0)*s*g0*(qbit(1,2))
+   hold3=qbit(2,1)-(dt/10.0)*s*g0*(qbit(2,1))
+   hold4=qbit(2,2)+(dt/10.0)*s*g0*(2.0*qbit(1,1))
  
    norm=hold+hold4
  
@@ -97,7 +98,7 @@ end subroutine
 
 
 subroutine jmes_den(Q,Res,dt)
-  complex*16,dimension(:),intent(inout) :: Q
+  complex*16,dimension(:,:),intent(inout) :: Q
   logical,intent(out)                   :: Res
   real,intent(in)                       :: dt
   complex*16                            :: hold,hold2
@@ -136,8 +137,8 @@ subroutine jmes_den(Q,Res,dt)
      Q(1,1)=hold+(-0.5*hold+cmplx(0.0,1.0)*hold2)*dt/10
      Q(2,2)=hold2+(-0.5*hold2+cmplx(0.0,1.0)*hold)*dt/10
      hold=Q(1,1)+Q(2,2)
-     Q(1)=Q(1)/hold
-     Q(2)=Q(2)/hold
+     Q(1,1)=Q(1,1)/hold
+     Q(2,2)=Q(2,2)/hold
     enddo
   endif
   
