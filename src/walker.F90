@@ -113,6 +113,42 @@ module walker
 !end of coin functions
 
 
+ subroutine write_node(ele, un)
+ type(node),intent(in)      :: ele
+ integer,intent(in)         :: un
+ 
+ write(un,*)ele%n
+ write(un,*)ele%o_f
+ write(un,*)'phi'
+ write(un,*)ele%nphi
+ write(un,*)'qubit'
+ write(un,*)ele%nqphi
+ write(un,*)'edges'
+ write(un,*)ele%e_of
+ write(un,*)' '
+ 
+ end subroutine
+ 
+ subroutine write_node_full(ele, un)
+ type(node),intent(in)      :: ele
+ integer,intent(in)         :: un
+ 
+ write(un,*)ele%n
+ write(un,*)ele%o_f
+ write(un,*)'number of edges'
+ write(un,*)ele%e
+ write(un,*)'phi'
+ write(un,*)ele%nphi
+ write(un,*)'qubit'
+ write(un,*)ele%nqphi
+ write(un,*)'edges'
+ write(un,*)ele%e_of
+ write(un,*)'conections'
+ write(un,*)ele%c_e
+ write(un,*)' '
+ 
+ end subroutine
+
 
 
 end module

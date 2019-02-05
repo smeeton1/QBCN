@@ -4,6 +4,7 @@ module rules
  contains 
  
  subroutine cycle_graph(phi)
+ ! rules for a cycle where the right conection is openned when the node is measured as on
   type(node),dimension(:),intent(inout)  :: phi
   integer                                :: i,n
   

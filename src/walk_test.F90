@@ -33,6 +33,11 @@ do i=1,n
  walk(i)%e_of(:)=.false.
 enddo
 
+open(9, file='cycle.txt', status='replace',action='write')
+do i=1,n
+ call write_node_full(walk(i), 9)
+enddo
+
 do i=1,wend
   call mix(walk,n,2)
   call swap(walk,n)
@@ -40,7 +45,10 @@ do i=1,wend
     call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.0)
     call jmes_den(walk(j)%nqphi,walk(i)%o_f,0.2)
   enddo
-
+  write(9,*) 'step',i
+  do j=1,n
+    call write_node(walk(i), 9)
+  enddo
 enddo
-
+close(9)
 end program
