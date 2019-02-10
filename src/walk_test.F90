@@ -33,6 +33,9 @@ do i=1,n
  walk(i)%e_of(:)=.false.
 enddo
 
+
+walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
+
 open(9, file='cycle.txt', status='replace',action='write')
 do i=1,n
  call write_node_full(walk(i), 9)
