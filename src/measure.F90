@@ -145,6 +145,17 @@ subroutine jmes_den(Q,Res,dt)
 
 end subroutine
 
+function qnorm(qphi) result(m)
+  complex*16,dimension(:,:),intent(inout) :: Q
+  real*8                                  :: m
+  integer                                 :: n,i
+  m=0.0
+  do i=1,2
+    m=m+real(Q(i,i))
+  enddo
+
+end function
+
 
 end module
 
