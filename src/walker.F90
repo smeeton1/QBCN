@@ -32,7 +32,7 @@ module walker
  
  do i=1,n
   do j=1,phi(i)%e
-   if(i.lt.phi(i)%c_e(j))then
+   if((i.lt.phi(i)%c_e(j)).and.(phi(i)%e_of(j).eqv..true.))then
     do k=1,phi(phi(i)%c_e(j))%e
       if(phi(phi(i)%c_e(j))%c_e(k).eq.phi(i)%n)then
         hold=phi(i)%nphi(j)
@@ -149,6 +149,37 @@ module walker
  
  end subroutine
 
-
+ function norm(phi,n) result(m)
+  type(node),dimension(:),intent(in)    :: phi
+  integer,intent(in)                    :: n
+  integer                               :: i,j
+  real                                  :: m
+  
+  m=0
+  do i=1,n
+    do j=1,phi(i)%e
+      m=m+real(conjg(phi(i)%nphi(j))*(phi(i)%nphi(j)))
+    enddo
+  enddo
+ 
+ 
+ end function
+ 
+ subroutine write_wave(phi,n,un)
+  type(node),dimension(:),intent(in)    :: phi
+  integer,intent(in)                    :: n,un
+  integer                               :: i,j
+  complex*16                            :: m
+  
+  do i=1,n
+    m=cmplx(0.0,0.0)
+    do j=1,phi(i)%e
+      write(un,'(2F8.4,A)',advance='no') phi(i)%nphi(j),' '
+      m=m+phi(i)%nphi(j)
+    enddo
+    write(un,'(2F8.4,A)',advance='yes') m,' '
+  enddo
+ 
+ end subroutine
 
 end module

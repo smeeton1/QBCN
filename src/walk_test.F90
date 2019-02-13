@@ -30,7 +30,7 @@ do i=1,n
  enddo
  walk(i)%nqphi(:,:)=cmplx(0.0,0.0)
  walk(i)%nqphi(2,2)=cmplx(1.0,0.0)
- walk(i)%e_of(:)=.false.
+ walk(i)%e_of(:)=.true.
 enddo
 
 
@@ -49,8 +49,9 @@ do i=1,wend
     call jmes_den(walk(j)%nqphi,walk(i)%o_f,0.2)
   enddo
   write(9,*) 'step',i
+  write(9,*) norm(walk,n)
   do j=1,n
-    call write_node(walk(i), 9)
+    call write_wave(walk, n, 9)
   enddo
 enddo
 close(9)
