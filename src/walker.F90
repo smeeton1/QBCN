@@ -181,5 +181,29 @@ module walker
   enddo
  
  end subroutine
+ 
+ function node_prob(phi) result(m)
+  type(node),intent(in)                 :: phi
+  integer                               :: j
+  real                                  :: m
+  
+  m=0.0
+  do j=1,phi%e
+    m=m+real(conjg(phi%nphi(j))*(phi%nphi(j)))
+  enddo
+
+ end function
+ 
+ function node_wave(phi) result(m)
+  type(node),intent(in)                 :: phi
+  integer                               :: j
+  complex*16                            :: m
+  
+  m=cmplx(0.0,0.0)
+  do j=1,phi%e
+    m=m+phi%nphi(j)
+  enddo
+
+ end function
 
 end module
