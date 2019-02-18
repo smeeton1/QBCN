@@ -42,7 +42,7 @@ do i=1,n
 enddo
 
 do i=1,wend
-  call mix(walk,n,2)
+  call mix(walk,n,3)
   call swap(walk,n)
   do j=1,n
     call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.0)
@@ -50,9 +50,13 @@ do i=1,wend
   enddo
   write(9,*) 'step',i
   write(9,*) norm(walk,n)
+  call write_wave(walk,n,9)
+  write(9,*) 'qubit'
   do j=1,n
-    call write_wave(walk, n, 9)
+    write(9,*) j
+    call write_qb(walk(j),9)
   enddo
+
 enddo
 close(9)
 end program

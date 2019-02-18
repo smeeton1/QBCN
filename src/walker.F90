@@ -69,7 +69,7 @@ module walker
   elseif(Ct.eq.2)then
    call Gcoin(C)
   else
-   !call Ccoin(C)
+   call Ccoin(C)
   endif
  
   phi(i)%nphi=matmul(C,phi(i)%nphi)
@@ -108,6 +108,12 @@ module walker
  complex*16,dimension(:,:),intent(inout)  :: C
  integer                                  :: i,n
  n = size(C,1)
+ c(:,:)=cmplx(0.0,0.0)
+ do i=1,n
+  c(i,i)=cmplx(1/sqrt(2.0),0.0)
+ enddo
+  c(1,2)=-cmplx(0,1/sqrt(2.0))
+  c(2,1)=-cmplx(0,1/sqrt(2.0))
  
  end subroutine
 !end of coin functions

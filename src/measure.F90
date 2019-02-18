@@ -1,4 +1,5 @@
 module measure
+  use walker
   implicit none
   
  contains 
@@ -155,6 +156,18 @@ function qnorm(Q) result(m)
   enddo
 
 end function
+
+subroutine write_qb(walk,un)
+  type(node),intent(inout)       :: walk
+  integer,intent(in)          :: un
+  integer                     :: i
+  
+  do i=1,2
+    write(un,'(2F8.4,A,2F8.4)') walk%nqphi(i,1),' ',walk%nqphi(i,2)
+  enddo
+  write(un,'(A,F8.4)') 'Norm = ',qnorm(walk%nqphi)
+
+end subroutine
 
 
 end module
