@@ -33,7 +33,6 @@ do i=1,n
  walk(i)%e_of(:)=.true.
 enddo
 
-
 walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
 
 open(9, file='cycle.txt', status='replace',action='write')
@@ -49,12 +48,14 @@ do i=1,wend
     call jmes_den(walk(j)%nqphi,walk(i)%o_f,0.2)
   enddo
   write(9,*) 'step',i
+
   write(9,*) norm(walk,n)
   call write_wave(walk,n,9)
   write(9,*) 'qubit'
   do j=1,n
     write(9,*) j
     call write_qb(walk(j),9)
+    write(9,*) 'Node T/F: ',walk(i)%o_f
   enddo
 
 enddo

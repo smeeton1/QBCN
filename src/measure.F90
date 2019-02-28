@@ -108,23 +108,26 @@ subroutine jmes_den(Q,Res,dt)
   
   t(1)=TIME()
   ran=-1.0
+  tsum=real(Q(1,1)+Q(2,2))*dt
   do while(ran.lt.0.000001)
-   tsum=real(Q(1,1)+Q(2,2))*dt
    call random_seed(PUT=t)
    call random_number(ran)! = RAND(t)
   end do
-
+   
+  open(10, file='mtest.txt', status='unknown',access='append',action='write') 
+  write(10,*) ran,' ',tsum
+  close(10)
   
   if(ran.lt.tsum)then
-    call random_number(ran1)! = RAND(t(1))
-    do while((ran.gt.real(Q(1,1)).and.ran1.gt.real(Q(2,2))))
-      do while((ran.lt.real(Q(1,1)).and.ran1.lt.real(Q(2,2))))
-       do while(ran.lt.0.000001.and.ran1.lt.0.000001)
-        call random_number(ran)!  = RAND(t(1))!
-        call random_number(ran1)! = RAND(t(1))
-       end do
-      end do
-    enddo
+!     call random_number(ran1)! = RAND(t(1))
+!     do while((ran.gt.real(Q(1,1)).and.ran1.gt.real(Q(2,2))))
+!       do while((ran.lt.real(Q(1,1)).and.ran1.lt.real(Q(2,2))))
+!        do while(ran.lt.0.000001.and.ran1.lt.0.000001)
+!         call random_number(ran)!  = RAND(t(1))!
+!         call random_number(ran1)! = RAND(t(1))
+!        end do
+!       end do
+!     enddo
     
     if(ran.lt.real(Q(1,1)))then
       Res=.true.
@@ -158,7 +161,7 @@ function qnorm(Q) result(m)
 end function
 
 subroutine write_qb(walk,un)
-  type(node),intent(inout)       :: walk
+  type(node),intent(inout)    :: walk
   integer,intent(in)          :: un
   integer                     :: i
   
