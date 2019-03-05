@@ -35,13 +35,15 @@ enddo
 
 walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
 
+!walk(4)%e_of(2)=.false.;walk(5)%e_of(1)=.false.
+
 open(9, file='cycle.txt', status='replace',action='write')
 do i=1,n
  call write_node_full(walk(i), 9)
 enddo
 
 do i=1,wend
-  call mix(walk,n,3)
+  call mix(walk,n,2)
   call swap(walk,n)
   do j=1,n
     call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.0)

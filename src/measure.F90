@@ -151,11 +151,11 @@ end subroutine
 
 function qnorm(Q) result(m)
   complex*16,dimension(:,:),intent(inout) :: Q
-  real*8                                  :: m
+  complex                                 :: m
   integer                                 :: n,i
-  m=0.0
+  m=cmplx(0.0,0.0)
   do i=1,2
-    m=m+real(Q(i,i))
+    m=m+Q(i,i)
   enddo
 
 end function
@@ -168,7 +168,7 @@ subroutine write_qb(walk,un)
   do i=1,2
     write(un,'(2F8.4,A,2F8.4)') walk%nqphi(i,1),' ',walk%nqphi(i,2)
   enddo
-  write(un,'(A,F8.4)') 'Norm = ',qnorm(walk%nqphi)
+  write(un,'(A,2F8.4)') 'Norm = ',qnorm(walk%nqphi)
 
 end subroutine
 
