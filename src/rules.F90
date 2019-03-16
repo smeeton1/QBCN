@@ -1,7 +1,23 @@
 module rules
  use walker
+ use measure
  implicit none
  contains 
+ 
+ subroutine step(phi,coin,n,dt,s,g0)
+  type(node),dimension(:),intent(inout)  :: phi
+  integer,intent(inout)                  :: coin,n
+  real,intent(inout)                     :: dt,s,g0
+  integer                                :: j
+  
+  call mix(phi,n,coin)
+  call swap(phi,n)
+  do j=1,n
+    call qbit_rho_inter(phi(j)%nqphi,phi(j)%nphi,s,dt,g0)
+    call jmes_den(phi(j)%nqphi,phi(j)%o_f,dt)
+  enddo
+ 
+ end subroutine
  
  subroutine cycle_graph(phi)
  ! rules for a cycle where the right conection is openned when the node is measured as on

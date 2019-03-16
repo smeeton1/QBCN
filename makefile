@@ -17,8 +17,8 @@ Cwlk: $(OBJECTS)
 	
 	
 walker.o:
-measure.o:
-rules.o: walker.o
+measure.o: walker.o
+rules.o: walker.o measure.o 
 walk_test.o: walker.o measure.o rules.o
 
 

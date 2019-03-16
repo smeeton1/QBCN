@@ -193,6 +193,22 @@ module walker
  
  end subroutine
  
+ subroutine write_p_wave(phi,n,un)
+  type(node),dimension(:),intent(in)    :: phi
+  integer,intent(in)                    :: n,un
+  integer                               :: i,j
+  real*16                               :: m
+  
+  do i=1,n
+    m=cmplx(0.0,0.0)
+    do j=1,phi(i)%e
+      m=m+real((phi(i)%nphi(j))*conjg(phi(i)%nphi(j)))
+    enddo
+    write(un,'(F8.4,A)',advance='yes') m,' '
+  enddo
+ 
+ end subroutine
+ 
  function node_prob(phi) result(m)
   type(node),intent(in)                 :: phi
   integer                               :: j
