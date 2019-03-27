@@ -49,6 +49,7 @@ open(9, file='cycle_1', status='replace',action='write')
 ! do i=1,n
 !  call write_node_full(walk(i), 9)
 ! enddo
+  write(9,*) 'step',0
   write(9,*) norm(walk,n)
   call write_p_wave(walk,n,9)
   do j=1,n
@@ -102,7 +103,7 @@ do i=1,n
  walk(i)%e_of(:)=.false.
 enddo
 
-walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
+walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(1.0,0.0)/sqrt(2.0)
 
 walk(4)%e_of(2)=.true.;walk(5)%e_of(1)=.true.
 walk(3)%e_of(2)=.true.;walk(4)%e_of(1)=.true.
@@ -117,6 +118,7 @@ open(9, file='cycle_2', status='replace',action='write')
 ! do i=1,n
 !  call write_node_full(walk(i), 9)
 ! enddo
+  write(9,*) 'step',0
   write(9,*) norm(walk,n)
   call write_p_wave(walk,n,9)
   do j=1,n
@@ -134,7 +136,7 @@ do i=1,wend
   enddo
 
   call cycle_graph(walk)
-    write(9,*) 'step',i
+  write(9,*) 'step',i
 
   write(9,*) norm(walk,n)
   call write_p_wave(walk,n,9)
@@ -169,7 +171,7 @@ do i=1,n
  walk(i)%e_of(:)=.false.
 enddo
 
-walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
+walk(4)%nphi(1)=1!/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
 
 walk(4)%e_of(2)=.true.;walk(5)%e_of(1)=.true.
 walk(3)%e_of(2)=.true.;walk(4)%e_of(1)=.true.
@@ -184,6 +186,7 @@ open(9, file='cycle_3', status='replace',action='write')
 ! do i=1,n
 !  call write_node_full(walk(i), 9)
 ! enddo
+  write(9,*) 'step',0
   write(9,*) norm(walk,n)
   call write_p_wave(walk,n,9)
   do j=1,n
@@ -236,7 +239,8 @@ do i=1,n
  walk(i)%e_of(:)=.false.
 enddo
 
-walk(4)%nphi(1)=1/sqrt(2.0);walk(4)%nphi(2)=cmplx(0.0,1.0)/sqrt(2.0)
+!walk(4)%nphi(1)=1/sqrt(2.0);
+walk(4)%nphi(2)=cmplx(0.0,1.0)!/sqrt(2.0)
 
 walk(4)%e_of(2)=.true.;walk(5)%e_of(1)=.true.
 walk(3)%e_of(2)=.true.;walk(4)%e_of(1)=.true.
@@ -251,6 +255,7 @@ open(9, file='cycle_4', status='replace',action='write')
 ! do i=1,n
 !  call write_node_full(walk(i), 9)
 ! enddo
+  write(9,*) 'step',0
   write(9,*) norm(walk,n)
   call write_p_wave(walk,n,9)
   do j=1,n
