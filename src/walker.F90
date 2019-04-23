@@ -65,21 +65,22 @@ module walker
  PI=4.D0*DATAN(1.D0)
  
  do i=1,n
- 
-  allocate(C(phi(i)%e,phi(i)%e))
-  g=exp(cmplx(0.0,1.0)*cmplx(PI)*(phi(i)%nqphi(2,2)*conjg(phi(i)%nqphi(2,2))))
+  if(phi(i)%e.qt.1)then
+    allocate(C(phi(i)%e,phi(i)%e))
+    g=exp(cmplx(0.0,1.0)*cmplx(PI)*(phi(i)%nqphi(2,2)*conjg(phi(i)%nqphi(2,2))))
   
-  if(Ct.eq.1)then
-   !call Hcion(C)
-  elseif(Ct.eq.2)then
-   call Gcoin(C)
-  else
-   call Ccoin(C)
+    if(Ct.eq.1)then
+      !call Hcion(C)
+    elseif(Ct.eq.2)then
+      call Gcoin(C)
+    else
+      call Ccoin(C)
+    endif
+ 
+    phi(i)%nphi=matmul(g*C,phi(i)%nphi)
+ 
+    deallocate(C)
   endif
- 
-  phi(i)%nphi=matmul(g*C,phi(i)%nphi)
- 
-  deallocate(C)
  enddo
  
  end subroutine
