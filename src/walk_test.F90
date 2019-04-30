@@ -82,7 +82,7 @@ do i=1,wend
   spr=0
   do j=1,n
     moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*node_prob(walk(j))*j*j)-(real(j*node_prob(walk(j))*j))**2
+    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
   enddo
   write(10,*) moment, spr
 enddo
@@ -169,7 +169,7 @@ do i=1,wend
   spr=0
   do j=1,n
     moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*node_prob(walk(j))*j*j)-(real(j*node_prob(walk(j))*j))**2
+    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
   enddo
   write(10,*) moment, spr
 enddo
@@ -256,7 +256,7 @@ do i=1,wend
   spr=0
   do j=1,n
     moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*node_prob(walk(j))*j*j)-(real(j*node_prob(walk(j))*j))**2
+    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
   enddo
   write(10,*) moment, spr
 enddo
@@ -343,7 +343,7 @@ do i=1,wend
   spr=0
   do j=1,n
     moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*node_prob(walk(j))*j*j)-(real(j*node_prob(walk(j))*j))**2
+    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
   enddo
   write(10,*) moment, spr
 enddo

@@ -54,20 +54,20 @@ for i in range(0,100):
  
 
 f.close()
+
+
+mom=[]
+spr=[]
 fh=open('momentum_1','r')
-
-mo=[]
-sp=[]
-
 for line in fh:
   data1=line.split()
-  mo.append(float(data1(0)))
-  sp.append(float(data1(1)))
+  mom.append(float(data1[0]))
+  spr.append(float(data1[1]))
 
 st=range(0,100)  
 plt.figure(200)
-plt.plot(st,mo)
-plt.errorbar(st,sp)
+plt.plot(st,mom)
+plt.errorbar(st,mom,spr)
 plt.ylabel('momentum')
 plt.xlabel('step')
 imgname='momentum.eps'
