@@ -10,14 +10,14 @@ integer                              :: n,i,j,k,l,wend,st,n_o,n_i,m
 complex                              :: nm
 real                                 :: dt,s,g0
 
-st=10
+st=10000
 n_o=2
 n_i=3
-wend=20
+wend=10
 m=2
-dt=0.5
-s=2.0
-g0=0.5
+dt=0.2
+s=1.0
+g0=1.0
 
 allocate(walk(6),syn0(2,3),in(3),out(2),out_d(2),y(2,3),x(3,3))
 x=reshape((/ 1, 0, 0 ,0,1,1,1,0,1/), shape(x))
@@ -61,7 +61,6 @@ do i=5,6
  walk(i)%c_e(1)=4
 enddo
 
-open(9, file='ai_1l.dat', status='replace',action='write')
 
 do k=1,st
   do l=1,3
@@ -84,15 +83,14 @@ do k=1,st
     walk(4)%nqphi(:,:)=cmplx(0.0,0.0)
     walk(4)%nqphi(2,2)=cmplx(1.0,0.0)
     walk(4)%e_of(:)=.false.
-    write(*,*) norm(walk,6)
+    
   
   
     do i=1,wend
       call step(walk,m,n,dt,s,g0)
     enddo
     do i=1,3
-      write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
+      if(walk(i)%o_f.eqv..True.)then
 	in(i)=1
       else
 	in(i)=0
@@ -100,7 +98,7 @@ do k=1,st
       walk(i)%e_of(1)=.true.
       walk(4)%e_of(i)=.true.
     enddo
-    write(*,*) in
+
     out=matmul(syn0,in)
 
     do i=1,2
@@ -112,27 +110,23 @@ do k=1,st
     do i=1,wend
       call step(walk,m,n,dt,s,g0)
     enddo
-
-    do i=1,n_o
-      out_d(i)=(y(i,l)-out(i))*(out(i)*(1-out(i)))
-    enddo
     do i=1,2
-      if(walk(4+i)%o_f.eqv..true.)then
+      if(walk(4+i)%o_f.eqv..True.)then
 	out(i)=1
       else
 	out(i)=0
       endif
     enddo
     do i=1,n_o
+      out_d(i)=(y(i,l)-out(i))*(out(i)*(1-out(i)))
+    enddo
+  
+    do i=1,n_o
       do j=1,n_i
 	syn0(i,j)=syn0(i,j)+x(j,l)*out_d(i)
       enddo
     enddo
-    
   enddo
-  write(9,*) (out_d(1)+out_d(2))/2
 enddo
-
-close(9)
 
 end program

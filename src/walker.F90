@@ -65,7 +65,7 @@ module walker
  PI=4.D0*DATAN(1.D0)
  
  do i=1,n
-  if(phi(i)%e.qt.1)then
+  if(phi(i)%e.gt.1)then
     allocate(C(phi(i)%e,phi(i)%e))
     g=exp(cmplx(0.0,1.0)*cmplx(PI)*(phi(i)%nqphi(2,2)*conjg(phi(i)%nqphi(2,2))))
   

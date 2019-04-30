@@ -14,8 +14,10 @@ subroutine jmes(Q,Res,dt)
   t(1)=TIME()
   
   tsum=real(CONJG(Q(1))*Q(1)+CONJG(Q(2))*Q(2))*dt
-  call random_seed(PUT=t)
-  call random_number(ran)! = RAND(t)
+!   call random_seed(PUT=t)
+  do i=1,5
+   call random_number(ran)! = RAND(t)
+  enddo
 
   
   if(ran.lt.tsum)then
@@ -76,8 +78,8 @@ subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
    qbit(2,2)=hold4/norm
   enddo
  
- else
- 
+ !else
+ endif
   do i=1,10
    hold =qbit(1,1)-(dt/10.0)*s*g0*(2.0*qbit(1,1))
    hold2=qbit(1,2)-(dt/10.0)*s*g0*(qbit(1,2))
@@ -92,7 +94,7 @@ subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
    qbit(2,2)=hold4/norm
   enddo
  
- endif
+ 
 
 
 end subroutine
@@ -110,13 +112,15 @@ subroutine jmes_den(Q,Res,dt)
   ran=-1.0
   tsum=real(Q(1,1)+Q(2,2))*dt
   do while(ran.lt.0.000001)
-   call random_seed(PUT=t)
-   call random_number(ran)! = RAND(t)
+   !call random_seed(PUT=t)
+   do i=1,5
+    call random_number(ran)! = RAND(t)
+   enddo
   end do
    
-  open(10, file='mtest.txt', status='unknown',access='append',action='write') 
-  write(10,*) ran,' ',tsum
-  close(10)
+!   open(10, file='mtest.txt', status='unknown',access='append',action='write') 
+!   write(10,*) ran,' ',tsum
+!   close(10)
   
   if(ran.lt.tsum)then
 !     call random_number(ran1)! = RAND(t(1))
