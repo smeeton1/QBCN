@@ -49,6 +49,16 @@ module rules
  
  
  
+ subroutine ai(phi)
+    type(node),dimension(:),intent(inout)  :: phi
+    integer                                :: i,n
+  
+    n=size(phi)
+ 
+ 
+ 
+ end subroutine
+ 
  
  
 end module

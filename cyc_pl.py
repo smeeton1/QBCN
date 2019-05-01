@@ -64,7 +64,7 @@ for line in fh:
   mom.append(float(data1[0]))
   spr.append(float(data1[1]))
 
-st=range(0,100)  
+st=range(0,101)  
 plt.figure(200)
 plt.plot(st,mom)
 plt.errorbar(st,mom,spr)

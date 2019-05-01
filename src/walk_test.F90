@@ -58,7 +58,13 @@ open(9, file='cycle_1', status='replace',action='write')
   enddo
   write(9,*)' '
 open(10, file='momentum_1', status='replace',action='write')
-  
+ moment=0
+spr=0
+do j=1,n
+ moment=moment+real(j*node_prob(walk(j)))
+  spr=spr+real(j*j*node_prob(walk(j)))
+enddo
+write(10,*) moment, sqrt(abs(spr-moment*moment)) 
   
 
 do i=1,wend
@@ -81,10 +87,10 @@ do i=1,wend
   moment=0
   spr=0
   do j=1,n
-    moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
+    moment=moment+real(j*node_prob(walk(j)))
+    spr=spr+real(j*j*node_prob(walk(j)))
   enddo
-  write(10,*) moment, spr
+  write(10,*) moment, sqrt(abs(spr-moment*moment))
 enddo
 close(9)
 close(10)
