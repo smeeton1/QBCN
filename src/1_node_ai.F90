@@ -6,7 +6,7 @@ implicit none
 type(node),dimension(:),allocatable  :: walk
 real,dimension(:,:),allocatable      :: syn0,y,x
 real,dimension(:),allocatable        :: in,out,out_d
-integer                              :: n,i,j,k,l,wend,st,n_o,n_i,m
+integer                              :: n,i,j,k,l,wend,st,n_o,n_i,m,rn
 complex                              :: nm
 real                                 :: dt,s,g0
 
@@ -18,6 +18,7 @@ m=2
 dt=0.5
 s=2.0
 g0=0.5
+rn=2
 
 allocate(walk(6),syn0(2,3),in(3),out(2),out_d(2),y(2,3),x(3,3))
 x=reshape((/ 1, 0, 0 ,0,1,1,1,0,1/), shape(x))
@@ -88,7 +89,7 @@ do k=1,st
   
   
     do i=1,wend
-      call step(walk,m,n,dt,s,g0)
+      call step(walk,m,n,dt,s,g0,rn)
     enddo
     do i=1,3
       write(*,*)walk(i)%o_f
@@ -110,7 +111,7 @@ do k=1,st
       endif
     enddo
     do i=1,wend
-      call step(walk,m,n,dt,s,g0)
+      call step(walk,m,n,dt,s,g0,rn)
     enddo
 
     do i=1,n_o

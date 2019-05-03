@@ -4,9 +4,9 @@ module rules
  implicit none
  contains 
  
- subroutine step(phi,coin,n,dt,s,g0)
+ subroutine step(phi,coin,n,dt,s,g0,rn)
   type(node),dimension(:),intent(inout)  :: phi
-  integer,intent(inout)                  :: coin,n
+  integer,intent(inout)                  :: coin,n,rn
   real,intent(inout)                     :: dt,s,g0
   integer                                :: j
   
@@ -14,7 +14,7 @@ module rules
   call swap(phi,n)
   do j=1,n
     call qbit_rho_inter(phi(j)%nqphi,phi(j)%nphi,s,dt,g0)
-    call jmes_den(phi(j)%nqphi,phi(j)%o_f,dt)
+    call jmes_den(phi(j)%nqphi,phi(j)%o_f,dt,rn)
   enddo
  
  end subroutine

@@ -5,11 +5,12 @@ use rules
 implicit none
 
 type(node),dimension(:),allocatable  :: walk
-integer                              :: n,i,j,wend
+integer                              :: n,i,j,wend,rn
 real                                 :: moment,spr
 
 wend=100
 n=20
+rn=2
 allocate(walk(n))
 
 do i=1,n
@@ -71,8 +72,8 @@ do i=1,wend
   call mix(walk,n,3)
   call swap(walk,n)
   do j=1,n
-    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.0)
-    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2)
+    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,0.6)
+    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2,rn)
   enddo
 
   call cycle_graph(walk)
@@ -153,13 +154,20 @@ open(9, file='cycle_2', status='replace',action='write')
   enddo
   write(9,*)' '
 open(10, file='momentum_2', status='replace',action='write')
+ moment=0
+spr=0
+do j=1,n
+ moment=moment+real(j*node_prob(walk(j)))
+  spr=spr+real(j*j*node_prob(walk(j)))
+enddo
+write(10,*) moment, sqrt(abs(spr-moment*moment)) 
 
 do i=1,wend
   call mix(walk,n,3)
   call swap(walk,n)
   do j=1,n
-    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.5)
-    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2)
+    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,0.8)
+    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2,rn)
   enddo
 
   call cycle_graph(walk)
@@ -174,10 +182,10 @@ do i=1,wend
   moment=0
   spr=0
   do j=1,n
-    moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
+    moment=moment+real(j*node_prob(walk(j)))
+    spr=spr+real(j*j*node_prob(walk(j)))
   enddo
-  write(10,*) moment, spr
+  write(10,*) moment, sqrt(abs(spr-moment*moment))
 enddo
 close(9)
 close(10)
@@ -240,13 +248,20 @@ open(9, file='cycle_3', status='replace',action='write')
   enddo
   write(9,*)' '
 open(10, file='momentum_3', status='replace',action='write')
+ moment=0
+spr=0
+do j=1,n
+ moment=moment+real(j*node_prob(walk(j)))
+  spr=spr+real(j*j*node_prob(walk(j)))
+enddo
+write(10,*) moment, sqrt(abs(spr-moment*moment)) 
 
 do i=1,wend
   call mix(walk,n,3)
   call swap(walk,n)
   do j=1,n
-    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,2.0)
-    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2)
+    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.0)
+    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2,rn)
   enddo
 
   call cycle_graph(walk)
@@ -261,10 +276,10 @@ do i=1,wend
   moment=0
   spr=0
   do j=1,n
-    moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
+    moment=moment+real(j*node_prob(walk(j)))
+    spr=spr+real(j*j*node_prob(walk(j)))
   enddo
-  write(10,*) moment, spr
+  write(10,*) moment, sqrt(abs(spr-moment*moment))
 enddo
 close(9)
 close(10)
@@ -327,13 +342,20 @@ open(9, file='cycle_4', status='replace',action='write')
   enddo
   write(9,*)' '
 open(10, file='momentum_4', status='replace',action='write')
+ moment=0
+spr=0
+do j=1,n
+ moment=moment+real(j*node_prob(walk(j)))
+  spr=spr+real(j*j*node_prob(walk(j)))
+enddo
+write(10,*) moment, sqrt(abs(spr-moment*moment)) 
 
 do i=1,wend
   call mix(walk,n,3)
   call swap(walk,n)
   do j=1,n
-    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,2.5)
-    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2)
+    call qbit_rho_inter(walk(j)%nqphi,walk(j)%nphi,1.0,0.2,1.2)
+    call jmes_den(walk(j)%nqphi,walk(j)%o_f,0.2,rn)
   enddo
 
   call cycle_graph(walk)
@@ -348,10 +370,10 @@ do i=1,wend
   moment=0
   spr=0
   do j=1,n
-    moment=moment+real(j*node_prob(walk(j))*j)
-    spr=spr+real(j*j*node_prob(walk(j))*j)-(real(j*node_prob(walk(j))*j))**2
+    moment=moment+real(j*node_prob(walk(j)))
+    spr=spr+real(j*j*node_prob(walk(j)))
   enddo
-  write(10,*) moment, spr
+  write(10,*) moment, sqrt(abs(spr-moment*moment))
 enddo
 close(9)
 close(10)

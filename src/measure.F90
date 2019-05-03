@@ -100,7 +100,7 @@ subroutine qbit_rho_inter(qbit,phi,s,dt,g0)
 end subroutine
 
 
-subroutine jmes_den(Q,Res,dt)
+subroutine jmes_den(Q,Res,dt,n)
   complex*16,dimension(:,:),intent(inout) :: Q
   logical,intent(out)                   :: Res
   real,intent(in)                       :: dt
@@ -113,7 +113,7 @@ subroutine jmes_den(Q,Res,dt)
   tsum=real(Q(1,1)+Q(2,2))*dt
   do while(ran.lt.0.000001)
    !call random_seed(PUT=t)
-   do i=1,5
+   do i=1,n
     call random_number(ran)! = RAND(t)
    enddo
   end do
