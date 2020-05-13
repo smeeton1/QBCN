@@ -47,6 +47,17 @@ module rules
  
  end subroutine
  
+ subroutine random_matrix(A)
+ ! setting up random strength matrix
+ real,dimension(:,:),intent(inout) :: A
+ integer                           :: i,j
+  do i=1,size(A,2)
+   do j=1,size(A,1)
+     A(j,i)=2*rand()-1
+   enddo
+ enddo
+ 
+ end subroutine
  
  
  subroutine ai(phi)
