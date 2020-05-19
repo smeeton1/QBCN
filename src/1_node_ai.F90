@@ -11,7 +11,7 @@ complex                              :: nm
 real                                 :: dt,s,g0,Err
 
 runs=1000
-st=20
+st=100
 n_o=2
 n_i=3
 wend=5
@@ -63,7 +63,7 @@ open(5, file='out_prob.dat', status='replace',action='write')
 do w=1, runs
 do i=1,n_o ! setting up random strength matrix
   do j=1,n_i
-    syn0(j,i)=2*rand()-1
+    syn0(j,i)=2*rand(w*TIME())-1
   enddo
 enddo
 
@@ -90,14 +90,14 @@ do k=1,st
       call step(walk,m,n,dt,s,g0,rn)
     enddo
     do i=1,3 !readinjg out results of qw
-      write(*,*)walk(i)%o_f
+      !write(*,*)walk(i)%o_f
       if(walk(i)%o_f)then
 	    in(i)=1
       else
 	    in(i)=0
       endif
     enddo
-    write(*,*) in
+    !write(*,*) in
     out=matmul(syn0,in)
 
     do i=1,2 ! setting up out puts

@@ -47,13 +47,14 @@ module rules
  
  end subroutine
  
- subroutine random_matrix(A)
+ subroutine random_matrix(A,seed)
  ! setting up random strength matrix
  real,dimension(:,:),intent(inout) :: A
  integer                           :: i,j
+ integer,intent(in)                :: seed
   do i=1,size(A,2)
    do j=1,size(A,1)
-     A(j,i)=2*rand()-1
+     A(j,i)=4*rand(seed*i*j)-2
    enddo
  enddo
  
