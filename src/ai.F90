@@ -12,31 +12,30 @@ complex                              :: nm
 real                                 :: dt,s,g0,openlevel,Err
 
 openlevel =0.5
-runs=1000
-st=1000
-n_s=8
-n_1=7
-n_2=6
-n_3=5
-n_4=4
-n_5=3
-n_e=2
+runs=1
+st=100
+n_s=7
+n_1=13
+n_2=18
+n_3=22
+n_4=25
+n_e=27
 wend=30
 m=2
 dt=0.5
 s=2.0
 g0=0.5
 rn=2
-n=35
+n=27
 
-allocate(walk(20),y(2,10),x(6,10),out_p(st))
-allocate(out(5),out2(4),out3(3),out4(2))
-allocate(out_d(2),out_d1(3),out_d2(4),out_d3(5),out_d4(6))
-allocate(in(8),in2(7),in3(6),in4(5),in5(4),in6(3))
-allocate(syn0(5,6),syn1(4,5),syn2(3,4),syn3(2,3))
+allocate(walk(n),y(2,10),x(n_s,10),out_p(st))
+allocate(out(6),out2(5),out3(4),out4(3),out5(2))
+allocate(out_d(2),out_d1(3),out_d2(4))
+allocate(in(5),in2(4),in3(3))
+allocate(syn0(6,7),syn1(5,6),syn2(4,5),syn3(3,4),syn4(2,3))
 allocate(syn0_d(5),syn1_d(4),syn2_d(3))
-x=reshape((/ 1,0,0,0,1,1, 0,1,1,1,1,1, 1,0,0,0,0,0, 1,1,1,1,0,0, 0,1,0,1,0,1 &
-1,0,1,0,1,0, 0,0,0,0,1,1, 1,1,0,0,1,1, 0,0,0,0,1,0, 0,1,1,0,1,1/), shape(x))
+x=reshape((/ 1,0,0,0,1,1,1, 0,1,1,1,1,0,1, 1,0,0,0,0,0,0, 1,1,1,1,0,1,1, 0,1,0,1,0,1,0, &
+1,0,1,0,1,0,1, 0,0,0,0,1,1,1, 1,1,0,0,1,1,0, 0,0,0,0,1,1,1, 0,1,1,0,1,1,0/), shape(x))
 y=reshape((/ 1,0, 0,1, 1,0, 1,0, 0,1, 1,0, 0,1, 1,0, 0,1, 0,1/), shape(y))
 out_p(:)=0.0
 ! do i=1,n_1 ! setting up random strength matrix layer 1
@@ -70,25 +69,24 @@ out_p(:)=0.0
 !   enddo
 ! enddo
 !write(*,*) syn0
+!write(*,*) "1"
 
-do i=1,6  !setting up walker
- allocate(walk(i)%nphi(5),walk(i)%c_e(5),walk(i)%e_of(5))
+do i=1,n_s  !setting up walker
+ allocate(walk(i)%nphi(n_1-n_s),walk(i)%c_e(n_1-n_s),walk(i)%e_of(n_1-n_s))
  walk(i)%n=i
- walk(i)%e=5
+ walk(i)%e=n_1-n_s
  walk(i)%o_f=.false.
- walk(i)%c_e(1)=7
- walk(i)%c_e(2)=8
- walk(i)%c_e(3)=9
- walk(i)%c_e(4)=10
- walk(i)%c_e(5)=11
+ do j=i,n_1-n_s
+    walk(i)%c_e(j)=j+n_s
+ enddo
  do j=1,walk(i)%e
    walk(i)%nphi(j)=cmplx(0.0,0.0)
  enddo
 enddo
-do i=7,11
- allocate(walk(i)%nphi(10),walk(i)%c_e(10),walk(i)%e_of(10))
+do i=n_s+1,n_1
+ allocate(walk(i)%nphi(n_s+n_2-n_1),walk(i)%c_e(n_s+n_2-n_1),walk(i)%e_of(n_s+n_2-n_1))
  walk(i)%n=i
- walk(i)%e=10
+ walk(i)%e=n_s+n_2-n_1
  walk(i)%o_f=.false.
  walk(i)%c_e(1)=1
  walk(i)%c_e(2)=2
@@ -96,60 +94,82 @@ do i=7,11
  walk(i)%c_e(4)=4
  walk(i)%c_e(5)=5
  walk(i)%c_e(6)=6
- walk(i)%c_e(7)=12
- walk(i)%c_e(8)=13
- walk(i)%c_e(9)=14
- walk(i)%c_e(10)=15
+ walk(i)%c_e(7)=7
+ walk(i)%c_e(8)=14
+ walk(i)%c_e(9)=15
+ walk(i)%c_e(10)=16
+ walk(i)%c_e(11)=17
+ walk(i)%c_e(12)=18
  do j=1,walk(i)%e
    walk(i)%nphi(j)=cmplx(0.0,0.0)
  enddo
 enddo
-do i=12,15
+do i=n_1+1,n_2
+ allocate(walk(i)%nphi(10),walk(i)%c_e(10),walk(i)%e_of(10))
+ walk(i)%n=i
+ walk(i)%e=10
+ walk(i)%o_f=.false.
+ walk(i)%c_e(1)=8
+ walk(i)%c_e(2)=9
+ walk(i)%c_e(3)=10
+ walk(i)%c_e(4)=11
+ walk(i)%c_e(5)=12
+ walk(i)%c_e(6)=13
+ walk(i)%c_e(7)=19
+ walk(i)%c_e(8)=20
+ walk(i)%c_e(9)=21
+ walk(i)%c_e(10)=22
+ do j=1,walk(i)%e
+   walk(i)%nphi(j)=cmplx(0.0,0.0)
+ enddo
+enddo
+do i=n_2+1,n_3
  allocate(walk(i)%nphi(8),walk(i)%c_e(8),walk(i)%e_of(8))
  walk(i)%n=i
  walk(i)%e=8
  walk(i)%o_f=.false.
- walk(i)%c_e(1)=7
- walk(i)%c_e(2)=8
- walk(i)%c_e(3)=9
- walk(i)%c_e(4)=10
- walk(i)%c_e(5)=11
- walk(i)%c_e(6)=16
- walk(i)%c_e(7)=17
- walk(i)%c_e(8)=28
+ walk(i)%c_e(1)=14
+ walk(i)%c_e(2)=15
+ walk(i)%c_e(3)=16
+ walk(i)%c_e(4)=17
+ walk(i)%c_e(5)=18
+ walk(i)%c_e(6)=23
+ walk(i)%c_e(7)=24
+ walk(i)%c_e(8)=26
  do j=1,walk(i)%e
    walk(i)%nphi(j)=cmplx(0.0,0.0)
  enddo
 enddo
-do i=16,18
+do i=n_3+1,n_4
  allocate(walk(i)%nphi(6),walk(i)%c_e(6),walk(i)%e_of(6))
  walk(i)%n=i
  walk(i)%e=6
  walk(i)%o_f=.false.
- walk(i)%c_e(1)=12
- walk(i)%c_e(2)=13
- walk(i)%c_e(3)=14
- walk(i)%c_e(4)=15
- walk(i)%c_e(5)=19
- walk(i)%c_e(6)=20
+ walk(i)%c_e(1)=19
+ walk(i)%c_e(2)=20
+ walk(i)%c_e(3)=21
+ walk(i)%c_e(4)=22
+ walk(i)%c_e(5)=26
+ walk(i)%c_e(6)=27
  do j=1,walk(i)%e
    walk(i)%nphi(j)=cmplx(0.0,0.0)
  enddo
 enddo
-do i=19,20
+do i=n_4+1,n_e
  allocate(walk(i)%nphi(3),walk(i)%c_e(3),walk(i)%e_of(3))
  walk(i)%n=i
  walk(i)%e=3
  walk(i)%o_f=.false.
- walk(i)%c_e(1)=16
- walk(i)%c_e(2)=17
- walk(i)%c_e(3)=18
+ walk(i)%c_e(1)=23
+ walk(i)%c_e(2)=24
+ walk(i)%c_e(3)=27
  do j=1,walk(i)%e
    walk(i)%nphi(j)=cmplx(0.0,0.0)
  enddo
 enddo
 
 
+!write(*,*) "2"
 open(9, file='ai.dat', status='replace',action='write')
 open(5, file='out_prob.dat', status='replace',action='write')
 do w=1,runs
@@ -157,306 +177,131 @@ call random_matrix(syn0,w*TIME())
 call random_matrix(syn1,w*TIME())
 call random_matrix(syn2,w*TIME())
 call random_matrix(syn3,w*TIME())
-! call random_matrix(syn4,w*TIME())
+call random_matrix(syn4,w*TIME())
 ! call random_matrix(syn5,w*TIME())
+!write(*,*) "3"
 do k=1,st
   do l=1,10
-    do i=1,35
+    do i=1,n
       walk(i)%nphi(:)=cmplx(0.0,0.0)
     enddo
-    nm=sqrt(x(1,l)+x(2,l)+x(3,l)+x(4,l)+x(5,l)+x(6,l))
-    do i=1,8  !setting up the walker for ai run
-      walk(i)%nphi(1)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(2)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(3)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(4)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(5)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(6)=cmplx(x(i,l)/(sqrt(7.0)*nm))
-      walk(i)%nphi(7)=cmplx(x(i,l)/(sqrt(7.0)*nm))
+    nm=sqrt(sum(x(:,l)))
+    do i=1,n_s  !setting up the walker for ai run
+      do j=1,n_1-n_s
+      walk(i)%nphi(j)=cmplx(x(i,l)/(sqrt(float(n_1-n_s))*nm))
+      enddo
       walk(i)%nqphi(:,:)=cmplx(0.0,0.0)
       walk(i)%nqphi(2,2)=cmplx(1.0,0.0)
       walk(i)%e_of(:)=.false.
     enddo
-    do i=9,35
+    do i=n_s+1,n
       walk(i)%nphi(:)=cmplx(0.0,0.0)
       walk(i)%nqphi(:,:)=cmplx(0.0,0.0)
       walk(i)%nqphi(2,2)=cmplx(1.0,0.0)
       walk(i)%e_of(:)=.false.
     enddo
-    !write(*,*) norm(walk,n)
-  
+    !write(*,*) norm(walk,n),float(n_1-n_s)
+    !write(*,*) "4"
   
     do i=1,wend  !taking the steps
       call step(walk,m,n,dt,s,g0,rn)
     enddo
     !write(*,*) norm(walk,n)
-    do i=1,8 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in(i)=1
-      else
-	    in(i)=0
-      endif
-    enddo
-    !write(*,*) in
-    out=matmul(syn0,in)
-    !write(*,*) out
-    do i=1,7 ! setting up out puts
-      if(out(i).gt.openlevel)then
-	   walk(1)%e_of(i)=.true.
-	   walk(2)%e_of(i)=.true.
-	   walk(3)%e_of(i)=.true.
-	   walk(4)%e_of(i)=.true.
-	   walk(5)%e_of(i)=.true.
-	   walk(6)%e_of(i)=.true.
-	   walk(7)%e_of(i)=.true.
-	   walk(8)%e_of(i)=.true.
-	   walk(8+i)%e_of(:)=.true.
-      endif
-    enddo
+    !write(*,*) n_s+1,n_1, n_1-n_s+1, size(out2),size(syn1,2)
+    call ai_forward(walk,1,n_s,out,syn0,openlevel,x(:,l))
+    
+    !write(*,*) "5"
     do i=1,wend !final steps for walker to head to out put 
       call step(walk,m,n,dt,s,g0,rn)
     enddo
 
-    do i=9,15 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in2(i-8)=1
-      else
-	    in2(i-8)=0
-      endif
-    enddo
-    !write(*,*) in
-    out2=matmul(syn1,in2)
-    !write(*,*) out
-    do i=1,6 ! setting up out puts
-      if(out2(i).gt.openlevel)then
-	   walk(9)%e_of(i)=.true.
-	   walk(10)%e_of(i)=.true.
-	   walk(11)%e_of(i)=.true.
-	   walk(12)%e_of(i)=.true.
-	   walk(13)%e_of(i)=.true.
-	   walk(14)%e_of(i)=.true.
-	   walk(15)%e_of(i)=.true.
-	   walk(15+i)%e_of(:)=.true.
-      endif
-    enddo
-    
+    !write(*,*) "5.1"
+    call ai_forward(walk,n_s+1,n_1,out2,syn1,openlevel,out)
+
+    !write(*,*) "6"
     do i=1,wend !final steps for walker to head to out put 
       call step(walk,m,n,dt,s,g0,rn)
     enddo
     
-    do i=16,21 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in3(i-15)=1
-      else
-	    in3(i-15)=0
-      endif
-    enddo
-    !write(*,*) in
-    out3=matmul(syn2,in3)
-    !write(*,*) out
-    do i=1,5 ! setting up out puts
-      if(out3(i).gt.openlevel)then
-	   walk(16)%e_of(i)=.true.
-	   walk(17)%e_of(i)=.true.
-	   walk(18)%e_of(i)=.true.
-	   walk(19)%e_of(i)=.true.
-	   walk(20)%e_of(i)=.true.
-	   walk(21)%e_of(i)=.true.
-	   walk(21+i)%e_of(:)=.true.
-      endif
-    enddo
-    
+    call ai_forward(walk,n_1+1,n_2,out3,syn2,openlevel,out2)
+    !write(*,*) "6.1"
+
+    !write(*,*) "7"
     do i=1,wend !final steps for walker to head to out put 
       call step(walk,m,n,dt,s,g0,rn)
     enddo
     
-    do i=22,26 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in4(i-21)=1
-      else
-	    in4(i-21)=0
-      endif
-    enddo
-    !write(*,*) in
-    out4=matmul(syn3,in4)
-    !write(*,*) out
-    do i=1,4 ! setting up out puts
-      if(out4(i).gt.openlevel)then
-	   walk(22)%e_of(i)=.true.
-	   walk(23)%e_of(i)=.true.
-	   walk(24)%e_of(i)=.true.
-	   walk(25)%e_of(i)=.true.
-	   walk(26)%e_of(i)=.true.
-	   walk(26+i)%e_of(:)=.true.
-      endif
-    enddo
-    
+    call ai_forward(walk,n_2+1,n_3,out4,syn3,openlevel,out3)
+    !write(*,*) "6.1"
+
+    !write(*,*) "7"
     do i=1,wend !final steps for walker to head to out put 
       call step(walk,m,n,dt,s,g0,rn)
     enddo
     
-    
-    do i=27,30 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in5(i-26)=1
-      else
-	    in5(i-26)=0
-      endif
-    enddo
-    !write(*,*) in
-    out5=matmul(syn4,in5)
-    !write(*,*) out
-    do i=1,3 ! setting up out puts
-      if(out5(i).gt.openlevel)then
-	   walk(27)%e_of(i)=.true.
-	   walk(28)%e_of(i)=.true.
-	   walk(29)%e_of(i)=.true.
-	   walk(30)%e_of(i)=.true.
-	   walk(30+i)%e_of(:)=.true.
-      endif
-    enddo
-    
+    call ai_forward(walk,n_3+1,n_4,out5,syn4,openlevel,out4)
+    !write(*,*) "6.1"
+
+    !write(*,*) "7"
     do i=1,wend !final steps for walker to head to out put 
       call step(walk,m,n,dt,s,g0,rn)
     enddo
-    
-    
-    do i=31,33 !readinjg out results of qw
-     ! write(*,*)walk(i)%o_f
-      if(walk(i)%o_f)then
-	    in6(i-30)=1
-      else
-	    in6(i-30)=0
-      endif
-    enddo
-    !write(*,*) in
-    out6=matmul(syn5,in6)
-    !write(*,*) out
-    do i=1,2 ! setting up out puts
-      if(out2(i).gt.openlevel)then
-	   walk(31)%e_of(i)=.true.
-	   walk(32)%e_of(i)=.true.
-	   walk(33)%e_of(i)=.true.
-	   walk(33+i)%e_of(:)=.true.
-      endif
-    enddo
-    
-    
-    do i=1,wend !final steps for walker to head to out put 
-      call step(walk,m,n,dt,s,g0,rn)
-    enddo
+
     do i=1,n_e
-      out6(i)=1/(1+exp(-out6(i)))
-      out_d(i)=(y(i,l)-out6(i))*(out6(i)*(1-out6(i)))
+      out5(i)=1/(1+exp(-out5(i)))
+      out_d(i)=(y(i,l)-out5(i))*(out5(i)*(1-out5(i)))
     enddo
 
+    !write(*,*) "9"
     
-    
-    Err=abs((y(1,l)-out6(1))+(y(2,l)-out6(2)))
+    Err=abs((y(1,l)-out5(1))+(y(2,l)-out5(2)))
+    !write(*,*) "9.1"
     do i=1,2 !checking outputs
-      if(walk(33+i)%o_f.eqv..true.)then
-	    out6(i-32)=1
+      if(walk(12+i)%o_f.eqv..true.)then
+	    out3(i)=1
       else
-	    out6(i-32)=0
+	    out3(i)=0
       endif
     enddo
-    if((out6(1).eq.y(1,l)).or.(out6(2).eq.y(2,l)).and..NOT.((walk(34)%o_f).and.(walk(35)%o_f)))then
+    !write(*,*) "9.2"
+    if((out5(1).eq.y(1,l)).or.(out5(2).eq.y(2,l)).and..NOT.((walk(34)%o_f).and.(walk(35)%o_f)))then
      out_p(k)=out_p(k)+1
     endif
     
-
+    !write(*,*) "9.3"
     do i=1,n_e
-      do j=1,n_5
-	    syn5(i,j)=syn5(i,j)+out_d(j)*out5(i)
-      enddo
-    enddo
-    
-    syn4_d = matmul(out_d,syn5)
-    
-    do i=1,n_5
-     out5(i) = 1/(1+exp(-out5(i)))
-     out_d1(i)= syn4_d(i)*out5(i)*(1-out5(i))
-    enddo
-
-    do i=1,n_5
-      do j=1,n_4
-	    syn4(i,j)=syn4(i,j)+out_d1(j)*out4(i)
-      enddo
-    enddo
-    
-    syn3_d = matmul(out_d1,syn4)
-    
-    do i=1,n_4
-     out4(i) = 1/(1+exp(-out4(i)))
-     out_d2(i)= syn4_d(i)*out4(i)*(1-out4(i))
-    enddo
-
-    do i=1,n_4
-      do j=1,n_3
-	    syn3(i,j)=syn3(i,j)+out_d2(j)*out3(i)
-      enddo
-    enddo
-
-    syn2_d = matmul(out_d2,syn3)
-    
-    do i=1,n_3
-     out3(i) = 1/(1+exp(-out3(i)))
-     out_d3(i)= syn2_d(i)*out3(i)*(1-out3(i))
-    enddo
-
-    do i=1,n_3
       do j=1,n_2
-	    syn2(i,j)=syn2(i,j)+out_d3(j)*out2(i)
+	    syn4(i,j)=syn4(i,j)+out_d(i)*out4(j)
       enddo
-    enddo      
-    
-    
-    syn1_d = matmul(out_d3,syn2)
-    
-    do i=1,n_2
-     out2(i) = 1/(1+exp(-out2(i)))
-     out_d4(i)= syn1_d(i)*out2(i)*(1-out2(i))
     enddo
+    !write(*,*) "10"
+    call ai_backward(out4,out3,out_d,syn3,syn4)
+    
+    call ai_backward(out3,out2,out4,syn2,syn3)
+    
+    call ai_backward(out2,out,out3,syn1,syn2)
+    !write(*,*) "11"
+    call ai_backward(out,X(:,l),out2,syn0,syn1)
+    
+    !write(*,*) "12"
+   
+    
 
-    do i=1,n_2
-      do j=1,n_1
-	    syn2(i,j)=syn2(i,j)+out_d4(j)*out(i)
-      enddo
-    enddo    
-    
-    
-    syn0_d = matmul(out_d5,syn0)
-    
-    do i=1,n_1
-     out(i) = 1/(1+exp(-out(i)))
-     out_d6(i)= syn0_d(i)*out(i)*(1-out(i))
-    enddo
+ 
 
-    do i=1,n_1
-      do j=1,n_s
-	    syn0(i,j)=syn0(i,j)+out_d6(j)*X(i,l)
-      enddo
-    enddo 
-    
-    
     
   enddo
   write(9,*) Err!(out_d(1)+out_d(2))/2
-  write(5,*) node_prob(walk(34))!+node_prob(walk(5))
+  write(5,*) node_prob(walk(n))!+node_prob(walk(5))
   !write(*,*) norm(walk,n)
 enddo
   
 enddo
 
 open(6,file='ai_endwave.dat', status='replace',action='write')
-call write_p_wave(walk,35,6)
-write(6,*) norm(walk,35)
-do i=1,35
+call write_p_wave(walk,n,6)
+write(6,*) norm(walk,n)
+do i=1,n
  write(6,*) walk(i)%o_f
 enddo
 

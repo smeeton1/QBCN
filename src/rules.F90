@@ -61,13 +61,70 @@ module rules
  end subroutine
  
  
- subroutine ai(phi)
+ subroutine ai_forward(phi,N_S,N_E,out,syn,openlevel,in_t)
     type(node),dimension(:),intent(inout)  :: phi
-    integer                                :: i,n
+    real,dimension(:,:),intent(in)         :: syn
+    real,dimension(:),intent(inout)        :: out,in_t
+    real,intent(in)                        :: openlevel
+    real,dimension(:),allocatable          :: in
+    integer,intent(in)                     :: N_S,N_E
+    integer                                :: i,j
   
-    n=size(phi)
+    allocate(in(N_E-N_S+1))
+    
+    !write(*,*) N_E-N_S+1
+    do i=1,N_E-N_S+1 !readinjg out results of qw
+     ! write(*,*)walk(i)%o_f
+      if(phi(i)%o_f)then
+	    in(i)=1
+      else
+	    in(i)=0
+      endif
+    enddo
+    !write(*,*) in
+    out=matmul(syn,in_t)
+    !write(*,*) N_E-N_S
+    do i=1,N_E-N_S ! setting up out puts
+      if(out(i).gt.openlevel)then
+       do j=N_S,N_E
+	     phi(j)%e_of(i)=.true.
+	   enddo
+	   phi(N_S+i)%e_of(1:N_E-N_S+1)=.true.
+      endif
+    enddo
+    
+    deallocate(in)
+ 
+ end subroutine
  
  
+ subroutine ai_backward(out,out2,out_d,syn1,syn2)
+    real,dimension(:,:),intent(inout)      :: syn1
+    real,dimension(:),intent(inout)        :: out
+    real,dimension(:,:),intent(in)         :: syn2
+    real,dimension(:),intent(in)           :: out2,out_d
+    real,dimension(:),allocatable          :: syn_d
+    integer                                :: i,j,n_1,n_2
+  
+    n_1=size(syn1,1)
+    n_2=size(syn1,2)
+    allocate(syn_d(n_1))
+    
+    !write(*,*) "10"
+    syn_d = matmul(out_d,syn2)
+    !write(*,*) "10.1"
+    do i=1,n_1
+     out(i) = 1/(1+exp(-out(i)))
+     out(i)= syn_d(i)*out(i)*(1-out(i))
+    enddo
+    !write(*,*) "10.2"
+    do i=1,n_1
+      do j=1,n_2
+	    syn1(i,j)=syn1(i,j)+out(i)*out2(j)
+      enddo
+    enddo  
+    
+    deallocate(syn_d)
  
  end subroutine
  
